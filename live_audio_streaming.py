@@ -7,8 +7,7 @@ import wave
 from urllib.parse import urlencode
 from datetime import datetime
 from google import genai
-
-YOUR_API_KEY = "56dd1aa0a6f6424c983413a6938549b3"  
+import os
 
 CONNECTION_PARAMS = {
     "sample_rate": 16000,
@@ -36,7 +35,7 @@ recording_lock = threading.Lock()  # Thread-safe access to recorded_frames
 
 
 
-client = genai.Client(api_key="AIzaSyCHmxlLUUClKmszD98YM2q_7LNxAnP5kZw")
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # client = genai.GenerativeModel(model_name="gemini-2.5-flash-lite")
 
 def evaluate_response(scenario, expected_tone, word_limit, emphasis, agent_response, lead_saying):
@@ -229,7 +228,7 @@ def run():
     # Create WebSocketApp
     ws_app = websocket.WebSocketApp(
         API_ENDPOINT,
-        header={"Authorization": YOUR_API_KEY},
+        header={"Authorization": os.getenv("ASSEMBLY_AI_API_KEY")},
         on_open=on_open,
         on_message=on_message,
         on_error=on_error,

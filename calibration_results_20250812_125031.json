@@ -1,0 +1,53 @@
+{
+  "calibration_engine": {
+    "user_id": "7faac57a-de12-42d3-afe8-1e3b226ea594",
+    "test_prompts": [
+      {
+        "id": "C001",
+        "scenario": "FSBO-Fee-Objection",
+        "difficulty": "medium",
+        "prompt": "Respond to: 'I'm worried about fees.'",
+        "expected_tone": "empathetic",
+        "word_limit": 25,
+        "emphasis": "reassurance"
+      },
+      {
+        "id": "C002",
+        "scenario": "Price-Objection",
+        "difficulty": "medium",
+        "prompt": "Respond to: 'Your price seems too high.'",
+        "expected_tone": "confident",
+        "word_limit": 30,
+        "emphasis": "value-proposition"
+      }
+    ],
+    "user_responses": [
+      {
+        "text": "Totally understand. Let's look at roi.",
+        "sentiment_score": 0.8,
+        "tone_score": 0.7,
+        "pacing_score": 0.9,
+        "expected_tone": "empathetic",
+        "emphasis": "reassurance"
+      },
+      {
+        "text": "I will make some discount about this.",
+        "sentiment_score": 0.1,
+        "tone_score": 0.1,
+        "pacing_score": 0.2,
+        "expected_tone": "confident",
+        "emphasis": "value-proposition"
+      }
+    ],
+    "calibration_hash": "8a7256fb0e45fbf3f7142a31f66821b8f6b5fefe8cc659f010b2494905f5cbb0"
+  },
+  "calibration_result": {
+    "user_id": "7faac57a-de12-42d3-afe8-1e3b226ea594",
+    "date": "2025-08-12T12:50:31.477442",
+    "duration_seconds": 27.288059,
+    "overall_score": 46,
+    "tier": "Clarity-Medium-Pacing",
+    "summary": "Calibration complete! All live prompts will now match your natural rhythm.",
+    "display_message": "You're calibrated! Expect AI prompts that feel like you."
+  }
+}
