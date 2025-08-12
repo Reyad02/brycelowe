@@ -1,0 +1,302 @@
+{
+  "schema": "PitchProX Master Cache v4.0",
+  "cache_policy": "LRU 1M calls / 30-day TTL",
+  "lead_types": [
+    {
+      "id": "L001",
+      "name": "FSBO",
+      "description": "For-Sale-By-Owner",
+      "objection_tree": [
+        {
+          "layer": 1,
+          "statement": "We're doing this on our own.",
+          "type": "Relationship/Control",
+          "emotional_tag": "Guarded",
+          "responses": [
+            "Totally fair — I'm just offering a second set of eyes.",
+            "Makes sense — I can be a quiet safety net in the background.",
+            "Absolutely — think of me as an extra layer of insight.",
+            "I hear you — my role’s just to spot opportunities you might miss.",
+            "Sure — I’m here to support, not to take over.",
+            "Fair point — sometimes an outside glance adds value.",
+            "Understood — I’m simply offering a different perspective.",
+            "Got it — I can work alongside your existing approach.",
+            "Absolutely — I’m here only if you feel it benefits you.",
+            "Of course — just a fresh set of eyes, nothing more."
+          ]
+        },
+        {
+          "layer": 2,
+          "statement": "We had agents call already.",
+          "type": "Saturation",
+          "emotional_tag": "Annoyed",
+          "responses": [
+            "I get it — I'm not calling to list, just to give clarity.",
+            "Totally — I know you’ve heard from plenty already.",
+            "Right — my role here is just to help make sense of the noise.",
+            "Understood — I’m not here to pitch, just to inform.",
+            "Fair enough — I can keep this short and to the point.",
+            "Makes sense — I’ll focus only on useful, actionable info.",
+            "I hear you — no hard sell, just clear facts.",
+            "Absolutely — I can give you something you haven’t heard yet.",
+            "Gotcha — I’ll add clarity, not confusion.",
+            "Sure thing — I’m just here to help filter the options."
+          ]
+        },
+        {
+          "layer": 3,
+          "statement": "We're getting some traction already.",
+          "type": "Pride",
+          "emotional_tag": "Curious",
+          "responses": [
+            "Love the progress — want to pressure-test your strategy?",
+            "That’s great — ever thought about doubling the momentum?",
+            "Impressive — curious if you’re exploring all angles?",
+            "Nice — would you like to fine-tune your approach?",
+            "Awesome — I can share ideas to build on what’s working.",
+            "That’s solid — want to compare notes?",
+            "Great to hear — I can help accelerate that even more.",
+            "Fantastic — we could explore ways to scale that up.",
+            "Strong start — let’s make sure it’s built to last.",
+            "Good stuff — want a quick sanity check on the plan?"
+          ]
+        },
+        {
+          "layer": 4,
+          "statement": "We'll think about it later.",
+          "type": "Timing",
+          "emotional_tag": "Hesitant",
+          "responses": [
+            "Perfect — I'll plant the seed and circle back if timing shifts.",
+            "Totally fine — we can reconnect when the moment’s right.",
+            "Understood — I’ll keep in touch without being pushy.",
+            "Got it — let’s touch base when priorities change.",
+            "No problem — I can send you something to think over.",
+            "Absolutely — timing is everything, and I respect that.",
+            "Sure — I’ll keep an eye out for the right window.",
+            "Fair — I’ll give you space but stay in the loop.",
+            "Alright — I’ll follow up when it’s a better fit.",
+            "Of course — I’ll be here when you’re ready."
+          ]
+        },
+        {
+          "layer": 5,
+          "statement": "Not interested.",
+          "type": "Dismissive",
+          "emotional_tag": "Closed",
+          "responses": [
+            "Understood — I'll stay on your radar for when it feels right.",
+            "No worries — I’ll back off until the timing’s better.",
+            "Gotcha — I’ll let you lead if and when things shift.",
+            "Fair enough — I’ll check in way down the road.",
+            "Totally fine — I’ll respect your space on this.",
+            "Alright — you know where to find me if you change your mind.",
+            "No problem — I’ll leave you with my info for later.",
+            "Understood — I’ll wait until it’s relevant.",
+            "Sure — I’ll make this the last touch for now.",
+            "Absolutely — I’m stepping back but keeping the door open."
+          ]
+        }
+      ],
+      "trust_cues": {
+        "initial": 25,
+        "triggers": [
+          {
+            "t": 15,
+            "action": "empathy_prompt",
+            "delta": 40
+          },
+          {
+            "t": 60,
+            "action": "social_proof",
+            "delta": 25
+          },
+          {
+            "t": 120,
+            "action": "urgency_scarcity",
+            "delta": 15
+          }
+        ],
+        "thresholds": {
+          "low": 40,
+          "medium": 70,
+          "high": 90
+        }
+      },
+      "emotional_tags": [
+        "Guarded",
+        "Curious",
+        "Engaged",
+        "Hesitant",
+        "Annoyed",
+        "Confident",
+        "Doubtful",
+        "Excited",
+        "Burned",
+        "Hopeful"
+      ],
+      "pacing": {
+        "intro_max_words": 25,
+        "pause_after_objection": 1.5,
+        "close_ask": "soft"
+      },
+      "fallback": "F001_Empathy_Script"
+    },
+    {
+      "id": "L002",
+      "name": "Expired Listing",
+      "description": "Recently expired MLS",
+      "objection_tree": [
+        {
+          "layer": 1,
+          "statement": "We're still with our agent.",
+          "type": "Relationship",
+          "response": "Totally fair — just offering a second set of eyes.",
+          "emotional_tag": "Loyal"
+        },
+        {
+          "layer": 2,
+          "statement": "We're not ready to talk.",
+          "type": "Timing",
+          "response": "Understood — I'll plant a seed for when timing feels right.",
+          "emotional_tag": "Fatigue"
+        }
+      ],
+      "trust_cues": {
+        "initial": 20,
+        "triggers": [
+          {
+            "t": 20,
+            "action": "validate_frustration",
+            "delta": 35
+          }
+        ]
+      },
+      "emotional_tags": [
+        "Fatigue",
+        "Loyal",
+        "Curious",
+        "Hopeful"
+      ],
+      "pacing": {
+        "intro_max_words": 30,
+        "close_ask": "soft"
+      },
+      "fallback": "F002_Validate_Fatigue"
+    },
+    {
+      "id": "L003",
+      "name": "Absentee Owner",
+      "description": "Investment property owners",
+      "objection_tree": [
+        {
+          "layer": 1,
+          "statement": "We're not selling.",
+          "type": "Intent",
+          "response": "Totally fair — just exploring options for the future.",
+          "emotional_tag": "Defensive"
+        },
+        {
+          "layer": 2,
+          "statement": "It's a rental property.",
+          "type": "Classification",
+          "response": "Perfect — have you considered the current market opportunity?",
+          "emotional_tag": "Informative"
+        }
+      ],
+      "trust_cues": {
+        "initial": 30,
+        "triggers": [
+          {
+            "t": 30,
+            "action": "market_insight",
+            "delta": 25
+          }
+        ]
+      },
+      "emotional_tags": [
+        "Defensive",
+        "Curious",
+        "Analytical"
+      ],
+      "pacing": {
+        "intro_max_words": 20,
+        "close_ask": "soft"
+      },
+      "fallback": "F003_Market_Insight"
+    },
+    {
+      "id": "L015",
+      "name": "Professional Referrals",
+      "description": "Attorney/CPA networks",
+      "objection_tree": [
+        {
+          "layer": 1,
+          "statement": "We already refer to someone.",
+          "type": "Loyalty",
+          "response": "Totally fair — just exploring alignment.",
+          "emotional_tag": "Professional"
+        }
+      ],
+      "trust_cues": {
+        "initial": 70,
+        "triggers": [
+          {
+            "t": 10,
+            "action": "credential_drop",
+            "delta": 15
+          }
+        ]
+      },
+      "emotional_tags": [
+        "Professional",
+        "Curious",
+        "Diplomatic"
+      ],
+      "pacing": {
+        "intro_max_words": 20,
+        "close_ask": "appointment"
+      },
+      "fallback": "F015_Credential_First"
+    }
+  ],
+  "memory_cache": {
+    "LRU_size": 1000000,
+    "TTL_days": 30,
+    "variation_engine": {
+      "seed": "{{call_id}}",
+      "variants": 5,
+      "rule": "rotate every 3rd identical prompt"
+    }
+  },
+  "timestamp_prompt_template": {
+    "id": "{{prompt_id}}",
+    "text": "{{prompt_text}}",
+    "timestamp": "{{call_time}}",
+    "speaker": "Agent",
+    "layer": "{{objection_layer}}"
+  },
+  "emotional_tags": [
+    "Guarded",
+    "Curious",
+    "Engaged",
+    "Hesitant",
+    "Annoyed",
+    "Confident",
+    "Doubtful",
+    "Excited",
+    "Burned",
+    "Hopeful",
+    "Defensive",
+    "Informative",
+    "Analytical",
+    "Professional",
+    "Diplomatic"
+  ],
+  "developer_notes": [
+    "Load with `python seed_cache.py --file cache.json`",
+    "Query via `/api/cache/lead/{type}`",
+    "All timestamps in ISO-8601",
+    "Emotional tags auto-updated by sentiment model"
+  ]
+}

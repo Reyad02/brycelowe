@@ -1,0 +1,91 @@
+{
+  "schema": "PitchProX Master Cache v4.0",
+  "cache_policy": "LRU 1M calls / 30-day TTL",
+  "lead_types": [
+    {
+      "id": "L001",
+      "name": "FSBO",
+      "description": "For-Sale-By-Owner",
+      "objection_tree": [
+        {"layer": 1, "statement": "We're doing this on our own.", "type": "Relationship/Control", "response": "Totally fair — I'm just offering a second set of eyes.", "emotional_tag": "Guarded"},
+        {"layer": 2, "statement": "We had agents call already.", "type": "Saturation", "response": "I get it — I'm not calling to list, just to give clarity.", "emotional_tag": "Annoyed"},
+        {"layer": 3, "statement": "We're getting some traction already.", "type": "Pride", "response": "Love the progress — want to pressure-test your strategy?", "emotional_tag": "Curious"},
+        {"layer": 4, "statement": "We'll think about it later.", "type": "Timing", "response": "Perfect — I'll plant the seed and circle back if timing shifts.", "emotional_tag": "Hesitant"},
+        {"layer": 5, "statement": "Not interested.", "type": "Dismissive", "response": "Understood — I'll stay on your radar for when it feels right.", "emotional_tag": "Closed"}
+      ],
+      "trust_cues": {
+        "initial": 25,
+        "triggers": [
+          {"t": 15, "action": "empathy_prompt", "delta": 40},
+          {"t": 60, "action": "social_proof", "delta": 25},
+          {"t": 120, "action": "urgency_scarcity", "delta": 15}
+        ],
+        "thresholds": {"low": 40, "medium": 70, "high": 90}
+      },
+      "emotional_tags": ["Guarded", "Curious", "Engaged", "Hesitant", "Annoyed", "Confident", "Doubtful", "Excited", "Burned", "Hopeful"],
+      "pacing": {"intro_max_words": 25, "pause_after_objection": 1.5, "close_ask": "soft"},
+      "fallback": "F001_Empathy_Script"
+    },
+    {
+      "id": "L002",
+      "name": "Expired Listing",
+      "description": "Recently expired MLS",
+      "objection_tree": [
+        {"layer": 1, "statement": "We're still with our agent.", "type": "Relationship", "response": "Totally fair — just offering a second set of eyes.", "emotional_tag": "Loyal"},
+        {"layer": 2, "statement": "We're not ready to talk.", "type": "Timing", "response": "Understood — I'll plant a seed for when timing feels right.", "emotional_tag": "Fatigue"}
+      ],
+      "trust_cues": {"initial": 20, "triggers": [{"t": 20, "action": "validate_frustration", "delta": 35}]},
+      "emotional_tags": ["Fatigue", "Loyal", "Curious", "Hopeful"],
+      "pacing": {"intro_max_words": 30, "close_ask": "soft"},
+      "fallback": "F002_Validate_Fatigue"
+    },
+    {
+      "id": "L003",
+      "name": "Absentee Owner",
+      "description": "Investment property owners",
+      "objection_tree": [
+        {"layer": 1, "statement": "We're not selling.", "type": "Intent", "response": "Totally fair — just exploring options for the future.", "emotional_tag": "Defensive"},
+        {"layer": 2, "statement": "It's a rental property.", "type": "Classification", "response": "Perfect — have you considered the current market opportunity?", "emotional_tag": "Informative"}
+      ],
+      "trust_cues": {"initial": 30, "triggers": [{"t": 30, "action": "market_insight", "delta": 25}]},
+      "emotional_tags": ["Defensive", "Curious", "Analytical"],
+      "pacing": {"intro_max_words": 20, "close_ask": "soft"},
+      "fallback": "F003_Market_Insight"
+    },
+    {
+      "id": "L015",
+      "name": "Professional Referrals",
+      "description": "Attorney/CPA networks",
+      "objection_tree": [
+        {"layer": 1, "statement": "We already refer to someone.", "type": "Loyalty", "response": "Totally fair — just exploring alignment.", "emotional_tag": "Professional"}
+      ],
+      "trust_cues": {"initial": 70, "triggers": [{"t": 10, "action": "credential_drop", "delta": 15}]},
+      "emotional_tags": ["Professional", "Curious", "Diplomatic"],
+      "pacing": {"intro_max_words": 20, "close_ask": "appointment"},
+      "fallback": "F015_Credential_First"
+    }
+  ],
+  "memory_cache": {
+    "LRU_size": 1000000,
+    "TTL_days": 30,
+    "variation_engine": {
+      "seed": "{{call_id}}",
+      "variants": 5,
+      "rule": "rotate every 3rd identical prompt"
+    }
+  },
+  "timestamp_prompt_template": {
+    "id": "{{prompt_id}}",
+    "text": "{{prompt_text}}",
+    "timestamp": "{{call_time}}",
+    "speaker": "Agent",
+    "layer": "{{objection_layer}}"
+  },
+  "emotional_tags": ["Guarded", "Curious", "Engaged", "Hesitant", "Annoyed", "Confident", "Doubtful", "Excited", "Burned", "Hopeful", "Defensive", "Informative", "Analytical", "Professional", "Diplomatic"],
+  "developer_notes": [
+    "Load with `python seed_cache.py --file cache.json`",
+    "Query via `/api/cache/lead/{type}`",
+    "All timestamps in ISO-8601",
+    "Emotional tags auto-updated by sentiment model"
+  ]
+}

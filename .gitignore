@@ -1,0 +1,11 @@
+venv
+.env
+__pycache__
+deepgram_new_version
+call_2nd_version.py
+call_for_deepgram_check.py
+call_for_deepgram_check.py
+deepgram_check.py
+deepgram_transcriber.py
+testing.py
+transcribe_2nd_version.py
