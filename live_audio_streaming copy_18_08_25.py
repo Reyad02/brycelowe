@@ -10,14 +10,10 @@ from google import genai
 import uuid
 import hashlib
 import os
-
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
-
-print("GEMINI_API_KEY:", os.getenv("GEMINI_API_KEY"))
 
 CONNECTION_PARAMS = {
     "sample_rate": 16000,
@@ -41,10 +37,8 @@ stop_event = threading.Event()
 recorded_frames = []
 recording_lock = threading.Lock()
 
-# GenAI client
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Calibration test configuration
 TEST_PROMPTS = [
     {
         "id": "C001",
@@ -64,6 +58,169 @@ TEST_PROMPTS = [
         "word_limit": 30,
         "emphasis": "value-proposition"
     },
+    # {
+    #     "id": "C003",
+    #     "scenario": "Time-Pressure",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'I don't have time for this right now.'",
+    #     "expected_tone": "understanding",
+    #     "word_limit": 20,
+    #     "emphasis": "urgency-without-pressure"
+    # },
+    # {
+    #     "id": "C004",
+    #     "scenario": "Competitor-Mention",
+    #     "difficulty": "medium",
+    #     "prompt": "Respond to: 'I'm also talking to your competitor.'",
+    #     "expected_tone": "professional",
+    #     "word_limit": 30,
+    #     "emphasis": "differentiation"
+    # },
+    # {
+    #     "id": "C005",
+    #     "scenario": "Initial-Contact",
+    #     "difficulty": "easy",
+    #     "prompt": "Start a conversation with a cold lead.",
+    #     "expected_tone": "friendly",
+    #     "word_limit": 25,
+    #     "emphasis": "rapport-building"
+    # },
+    # {
+    #     "id": "C006",
+    #     "scenario": "Feature-Question",
+    #     "difficulty": "easy",
+    #     "prompt": "Respond to: 'What makes your product different?'",
+    #     "expected_tone": "knowledgeable",
+    #     "word_limit": 35,
+    #     "emphasis": "key-benefits"
+    # },
+    # {
+    #     "id": "C007",
+    #     "scenario": "Objection-Handling",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'I need to think about it.'",
+    #     "expected_tone": "patient",
+    #     "word_limit": 25,
+    #     "emphasis": "gentle-push"
+    # },
+    # {
+    #     "id": "C008",
+    #     "scenario": "Price-Justification",
+    #     "difficulty": "medium",
+    #     "prompt": "Respond to: 'Why should I pay that much?'",
+    #     "expected_tone": "assertive",
+    #     "word_limit": 30,
+    #     "emphasis": "ROI-focus"
+    # },
+    # {
+    #     "id": "C009",
+    #     "scenario": "Skepticism",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'This sounds too good to be true.'",
+    #     "expected_tone": "transparent",
+    #     "word_limit": 30,
+    #     "emphasis": "credibility"
+    # },
+    # {
+    #     "id": "C010",
+    #     "scenario": "Follow-Up",
+    #     "difficulty": "easy",
+    #     "prompt": "Follow up on a lead that went cold.",
+    #     "expected_tone": "persistent-but-polite",
+    #     "word_limit": 25,
+    #     "emphasis": "re-engagement"
+    # },
+    # {
+    #     "id": "C011",
+    #     "scenario": "Technical-Question",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'How does the technology behind this work?'",
+    #     "expected_tone": "expert",
+    #     "word_limit": 40,
+    #     "emphasis": "simplified-explanation"
+    # },
+    # {
+    #     "id": "C012",
+    #     "scenario": "Urgency-Creation",
+    #     "difficulty": "medium",
+    #     "prompt": "Respond to: 'I can decide later.'",
+    #     "expected_tone": "motivational",
+    #     "word_limit": 25,
+    #     "emphasis": "limited-availability"
+    # },
+    # {
+    #     "id": "C013",
+    #     "scenario": "Complaint-Handling",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'I had a bad experience last time.'",
+    #     "expected_tone": "apologetic",
+    #     "word_limit": 30,
+    #     "emphasis": "service-recovery"
+    # },
+    # {
+    #     "id": "C014",
+    #     "scenario": "Closing-Attempt",
+    #     "difficulty": "medium",
+    #     "prompt": "Gently move the conversation toward closing.",
+    #     "expected_tone": "confident",
+    #     "word_limit": 25,
+    #     "emphasis": "next-steps"
+    # },
+    # {
+    #     "id": "C015",
+    #     "scenario": "Budget-Constraint",
+    #     "difficulty": "medium",
+    #     "prompt": "Respond to: 'This isn't in my budget.'",
+    #     "expected_tone": "solution-oriented",
+    #     "word_limit": 30,
+    #     "emphasis": "flexible-options"
+    # },
+    # {
+    #     "id": "C016",
+    #     "scenario": "Feature-Request",
+    #     "difficulty": "easy",
+    #     "prompt": "Respond to: 'I wish your product could do X.'",
+    #     "expected_tone": "appreciative",
+    #     "word_limit": 30,
+    #     "emphasis": "future-roadmap"
+    # },
+    # {
+    #     "id": "C017",
+    #     "scenario": "Competitive-Pricing",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'Your competitor offers this cheaper.'",
+    #     "expected_tone": "diplomatic",
+    #     "word_limit": 35,
+    #     "emphasis": "value-over-price"
+    # },
+    # {
+    #     "id": "C018",
+    #     "scenario": "Contract-Concerns",
+    #     "difficulty": "medium",
+    #     "prompt": "Respond to: 'I'm worried about the contract terms.'",
+    #     "expected_tone": "reassuring",
+    #     "word_limit": 30,
+    #     "emphasis": "flexibility"
+    # },
+    # {
+    #     "id": "C019",
+    #     "scenario": "Implementation-Question",
+    #     "difficulty": "easy",
+    #     "prompt": "Respond to: 'How long will setup take?'",
+    #     "expected_tone": "clear",
+    #     "word_limit": 25,
+    #     "emphasis": "ease-of-use"
+    # },
+    # {
+    #     "id": "C020",
+    #     "scenario": "Final-Objection",
+    #     "difficulty": "hard",
+    #     "prompt": "Respond to: 'I'm still not convinced.'",
+    #     "expected_tone": "persuasive",
+    #     "word_limit": 30,
+    #     "emphasis": "closing-argument"
+    # }
+
 ]
 
 # Calibration state
@@ -105,6 +262,7 @@ def evaluate_response(scenario, expected_tone, word_limit, emphasis, agent_respo
     )
     
     try:
+        print(f"\n This is checking: {response.text} \n")
         scores_json = json.loads(response.text)
         return scores_json
     except:
@@ -126,23 +284,23 @@ def calculate_final_calibration():
     final_score = int((avg_sentiment + avg_tone + avg_pacing) / 3 * 100)
     
     # Determine recommended tier based on scores
-    if avg_tone >= 0.8:
-        tone_category = "Empathy" if "empath" in calibration_state["responses"][0]["expected_tone"].lower() else "Clarity"
-    else:
-        tone_category = "Clarity"
+    # if avg_tone >= 0.8:
+    #     tone_category = "Empathy" if "empath" in calibration_state["responses"][0]["expected_tone"].lower() else "Clarity"
+    # else:
+    #     tone_category = "Clarity"
     
-    if avg_pacing >= 0.8:
-        pacing_category = "High-Pacing"
-    elif avg_pacing >= 0.5:
-        pacing_category = "Medium-Pacing"
-    else:
-        pacing_category = "Low-Pacing"
+    # if avg_pacing >= 0.8:
+    #     pacing_category = "High-Pacing"
+    # elif avg_pacing >= 0.5:
+    #     pacing_category = "Medium-Pacing"
+    # else:
+    #     pacing_category = "Low-Pacing"
     
-    recommended_tier = f"{tone_category}-{pacing_category}"
+    # recommended_tier = f"{tone_category}-{pacing_category}"
     
     # Create calibration hash
-    hash_input = f"{calibration_state['user_id']}{final_score}{recommended_tier}"
-    calibration_hash = hashlib.sha256(hash_input.encode()).hexdigest()
+    # hash_input = f"{calibration_state['user_id']}{final_score}{recommended_tier}"
+    # calibration_hash = hashlib.sha256(hash_input.encode()).hexdigest()
     
     # Prepare final result
     end_time = datetime.now().isoformat()
@@ -154,16 +312,16 @@ def calculate_final_calibration():
             "user_id": calibration_state["user_id"],
             "test_prompts": calibration_state["test_prompts"],
             "user_responses": calibration_state["responses"],
-            "calibration_hash": calibration_hash
+            # "calibration_hash": calibration_hash
         },
         "calibration_result": {
             "user_id": calibration_state["user_id"],
             "date": end_time,
             "duration_seconds": duration_seconds,
             "overall_score": final_score,
-            "tier": recommended_tier,
-            "summary": "Calibration complete! All live prompts will now match your natural rhythm.",
-            "display_message": "You're calibrated! Expect AI prompts that feel like you."
+            # "tier": recommended_tier,
+            # "summary": "Calibration complete! All live prompts will now match your natural rhythm.",
+            # "display_message": "You're calibrated! Expect AI prompts that feel like you."
         }
     }
     
@@ -179,17 +337,17 @@ def display_calibration_summary(calibration_result):
     print("\n" + "="*50)
     print("Calibration Complete!")
     print("="*50)
-    print(f"Your Personalized Style: {result['tier']}")
+    # print(f"Your Personalized Style: {result['tier']}")
     print(f"Score: {result['overall_score']}/100")
-    print(f"\n{result['summary']}")
+    # print(f"\n{result['summary']}")
     print("\n" + "="*50)
     
     # Optionally save the full results to a file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"calibration_results_{timestamp}.json"
-    with open(filename, 'w') as f:
-        json.dump(calibration_result, f, indent=2)
-    print(f"\nFull calibration results saved to: {filename}")
+    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # filename = f"calibration_results_{timestamp}.json"
+    # with open(filename, 'w') as f:
+    #     json.dump(calibration_result, f, indent=2)
+    # print(f"\nFull calibration results saved to: {filename}")
 
 def on_open(ws):
     print("WebSocket connection opened.")
@@ -263,6 +421,8 @@ def on_message(ws, message):
                     
                     # Move to next prompt or finish
                     calibration_state["current_prompt_index"] += 1
+
+                    print(f"Each response result: {response_data}")
                     
                     if calibration_state["current_prompt_index"] < len(TEST_PROMPTS):
                         next_prompt = TEST_PROMPTS[calibration_state["current_prompt_index"]]
@@ -293,7 +453,7 @@ def on_error(ws, error):
 
 def on_close(ws, close_status_code, close_msg):
     print(f"\nWebSocket Disconnected: Status={close_status_code}, Msg={close_msg}")
-    save_wav_file()
+    # save_wav_file()
     stop_event.set()
 
     global stream, audio
@@ -308,24 +468,24 @@ def on_close(ws, close_status_code, close_msg):
     if audio_thread and audio_thread.is_alive():
         audio_thread.join(timeout=1.0)
 
-def save_wav_file():
-    if not recorded_frames:
-        print("No audio data recorded.")
-        return
+# def save_wav_file():
+#     if not recorded_frames:
+#         print("No audio data recorded.")
+#         return
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"recorded_audio_{timestamp}.wav"
+#     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+#     filename = f"recorded_audio_{timestamp}.wav"
 
-    try:
-        with wave.open(filename, 'wb') as wf:
-            wf.setnchannels(CHANNELS)
-            wf.setsampwidth(2)
-            wf.setframerate(SAMPLE_RATE)
-            with recording_lock:
-                wf.writeframes(b''.join(recorded_frames))
-        print(f"Audio saved to: {filename}")
-    except Exception as e:
-        print(f"Error saving WAV file: {e}")
+#     try:
+#         with wave.open(filename, 'wb') as wf:
+#             wf.setnchannels(CHANNELS)
+#             wf.setsampwidth(2)
+#             wf.setframerate(SAMPLE_RATE)
+#             with recording_lock:
+#                 wf.writeframes(b''.join(recorded_frames))
+#         print(f"Audio saved to: {filename}")
+#     except Exception as e:
+#         print(f"Error saving WAV file: {e}")
 
 def run():
     global audio, stream, ws_app
